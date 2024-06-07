@@ -3,9 +3,9 @@ import calendar
 import datetime
 
 def main():
-    print(f"Starting Expense Tracker!")
+    print(f"Welcome to your Expense Tracker!")
     expense_file_path = "expenses.csv"
-    budget = 2000
+    budget = 3000
 
     # Get user input for expenses.
     expense = get_user_expense()
@@ -25,7 +25,7 @@ def get_user_expense():
     # print(f"You have entered {expense_name}, {expense_amount}")
 
     expense_categories = [
-        "Food", "Rent", "Clothing", "Transport", "Insurance", "Fun", "Miscellaneous"]
+        "Food", "Housing", "Personal care", "Transportation", "Insurance", "Fun/Leisure", "Savings", "Miscellaneous"]
 
     while True:
         print("Select a category: ")
@@ -33,16 +33,17 @@ def get_user_expense():
             print(f" {i + 1}, {category_name}")
 
         value_range = f"[1 - {len(expense_categories)}]"
-        selected_index = int(input(f"Enter a category number {value_range}: ")) - 1
-
-        if selected_index in range(len(expense_categories)):
-            selected_category = expense_categories[selected_index]
-            new_expense = Expense(
-                name=expense_name, category=selected_category, amount=expense_amount)
-            return new_expense
-        else:
-            print("Invalid category. Please try again")
-
+        try:
+            selected_index = int(input(f"Enter a category number {value_range}: ")) - 1
+            if selected_index in range(len(expense_categories)):
+                selected_category = expense_categories[selected_index]
+                new_expense = Expense(
+                    name=expense_name, category=selected_category, amount=expense_amount)
+                return new_expense
+            else:
+                print("Invalid category. Please try again")
+        except ValueError:
+            print("Oops! Invalid input. Please enter a numeric value for the category number.")
 
 def save_expense_to_file(expense: Expense, expense_file_path):
     print(f"Save User Expense: {expense} to {expense_file_path}")
